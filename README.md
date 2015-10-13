@@ -40,6 +40,12 @@ GlobeSSL.configure do |config|
 end
 ```
 
+You can access any configuration settings directly on the GlobeSSL namespace:
+```ruby
+api_key = GlobeSSL.api_key #=> b04b4e74c57c37de48863ef9373963e0b496f5e7
+api_url = GlobeSSL.api_url #=> https://api.globessl.com/v2
+```
+
 ### API Calls
 The **GlobeSSL Client** provides access to the following GlobeSSL CA API endpoints:
 - [account/balance](https://api.globessl.com/docs/#api-account-balance) Retrieves your reseller account balance.
@@ -364,7 +370,7 @@ You will need to check if the product is returned by the `GlobeSSL::Products` cl
 - Add `http` and `https` domain control validation method (`dcv_method`) documentation.
 - Test suite with mocks for CI/CD scenarios.
 
-## Acknowledclientents
+## Acknowledgements
 #### Version 1.0.0
 - Jurgen Jocubeit - President & CEO, [Brightcommerce, Inc.](http://brightcommerce.com)
 - Zoltan Egresi - CTO, [GlobeSSL CA](https://globessl.com) (API guidance and live testing assistance)
