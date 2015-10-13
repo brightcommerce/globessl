@@ -15,13 +15,13 @@ To find out more about GlobeSSL CA please visit their [website](https://www.glob
 
 ## Installation
 To install add the line to your `Gemfile`:
-```bash
+```
 gem 'globessl'
 ```
 And call `bundle install`.
 
 Alternatively, you can install it from the terminal:
-```bash
+```
 gem install globessl
 ```
 
