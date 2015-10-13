@@ -371,7 +371,7 @@ You will need to check if the product is returned by the `GlobeSSL::Products` cl
 - Test suite with mocks for CI/CD scenarios.
 
 ## Acknowledgements
-#### Version 1.0.0
+#### Version 1.0.1
 - Jurgen Jocubeit - President & CEO, [Brightcommerce, Inc.](http://brightcommerce.com)
 - Zoltan Egresi - CTO, [GlobeSSL CA](https://globessl.com) (API guidance and live testing assistance)
 
