@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/globessl.svg)](https://badge.fury.io/rb/globessl)
+
 # GlobeSSL Client
 The **GlobeSSL Client** is a Ruby API client for GlobeSSL CA resellers. This client provides almost all of the functionality exposed by version 2 of their API. To use this client you will need an API key.
 
