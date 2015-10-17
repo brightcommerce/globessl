@@ -4,11 +4,11 @@
 The **GlobeSSL Client** is a Ruby API client for GlobeSSL CA resellers. This client provides almost all of the functionality exposed by version 2 of their API. To use this client you will need an API key.
 
 ## Background
-The **GlobeSSL Client** is an opinionated client library for the GlobeSSL CA API. We built this library to provide fully automated provisioning of SSL Certificates for our client's apps and websites using the Brightcommerce API.
+The **GlobeSSL Client** is an opinionated client library for the GlobeSSL CA API. I built this library to provide fully automated provisioning of SSL Certificates for our client's apps and websites using the Brightcommerce API.
 
 The **GlobeSSL Client** provides endpoint access to the API methods that fulfill our requirements. It is very important to us that integration with GlobeSSL CA is seamless and provides as few touch-points as possible with the end-user. For instance, for the domain validation method we use the 'http' method which permits us to prove ownership of a domain by providing a specific text file at a specific URL. This means the end-user doesn't have to click a link in an email and punch in a code to validate ownership of a domain. We also use their autocsr method to generate the Certificate Signing Request and Private Key, rather than shell out and use OpenSSL.
 
-The **GlobeSSL Client** has undergone extensive real-world testing with real certificates. We worked closely with the CTO from GlobeSSL CA to address any issues or suggestions we had with their API. The assistance we received was truly excellent, and we're happy to provide this library to the public domain, which we hope will only mean more resellers for them.
+The **GlobeSSL Client** has undergone extensive real-world testing with real certificates. I worked closely with the CTO from GlobeSSL CA to address any issues or suggestions we had with their API. The assistance we received was truly excellent, and I'm happy to provide this library to the public domain, which we hope will only mean more resellers for them.
 
 ## About GlobeSSL CA
 To find out more about GlobeSSL CA please visit their [website](https://www.globessl.com). You can find out more about the API by reading their [documentation](https://api.globessl.com/docs/). To use their API you need to have a reseller account, you can find out more about their reseller plans at the [strategic partners](https://www.globessl.com/strategic-partners/) page on their website.
@@ -26,16 +26,16 @@ gem install globessl
 ```
 
 ## Dependencies
-**GlobeSSL Client** has the following runtime dependencies:
+The **GlobeSSL Client** has the following runtime dependencies:
 - Virtus ~> 1.0.3
 
 ## Compatibility
-Developed with MRI 2.2, however the `.clientspec` only specifies MRI 2.0. It may work with other flavors, but it hasn't been tested. Please let us know if you encounter any issues.
+Developed with MRI 2.2, however the `.gemspec` only specifies MRI 2.0. It may work with other flavors, but it hasn't been tested. Please let us know if you encounter any issues.
 
 ## How To Use
 
 ### Prerequisites
-**GlobeSSL Client** requires an API key. By default the library will look for your API key in the environment variable `GLOBESSL_API_KEY`. If you'd like to override this and provide the API key directly to the API, setup a configuration initializer as shown below:
+The **GlobeSSL Client** requires an API key. By default the library will look for your API key in the environment variable `GLOBESSL_API_KEY`. If you'd like to override this and provide the API key directly to the API, setup a configuration initializer as shown below:
 ```ruby
 GlobeSSL.configure do |config|
   config.api_key = "b04b4e74c57c37de48863ef9373963e0b496f5e7" # fictional
@@ -64,11 +64,11 @@ The **GlobeSSL Client** provides access to the following GlobeSSL CA API endpoin
 - [dcv/change](https://api.globessl.com/docs/#api-dcv-change) Change DCV Method for SSL Certificate.
 - [dcv/resend](https://api.globessl.com/docs/#api-dcv-resend) Re-sends validation email for the SSL Certificate.
 
-**GlobeSSL Client** does not provide access the following GlobeSSL CA API endpoint:
+The **GlobeSSL Client** *does not* provide access the following GlobeSSL CA API endpoint:
 - [order/quick](https://api.globessl.com/docs/#api-order-quickssl) Order a new SSL Certificate using invite method. The client will receive the URL for completing the SSL generation.
 
 ## How To Use
-We've attempted to make the **GlobeSSL Client** interface as consistent as possible. The GlobeSSL CA API has the following rules:
+I've attempted to make the **GlobeSSL Client** interface as consistent as possible. The GlobeSSL CA API has the following rules:
 - `GET` requests require any parameters in the URL.
 - `POST` requests require any parameters as `x-www-form-urlencoded` and passed in the request body.
 - The resellers API key is passed in the `X-API-KEY` header.
@@ -79,6 +79,8 @@ The **GlobeSSL Client** breaks the API into consistent logical domain models. Th
 Following are examples of how to instantiate each class with attributes where necessary, and the properties that can be queried on the class after each API call. All example information including names, addresses and other details are completely fictional and provided to give context.
 
 ### Account Balance
+Returns the current account balance and currency.
+
 ```ruby
 @account = GlobeSSL::AccountBalance.new
 
@@ -97,6 +99,8 @@ end
 ```
 
 ### Account Details
+Returns the account details such as reseller name, company, address and contact details. It also returns the current balance.
+
 ```ruby
 @account = GlobeSSL::AccountDetails.new
 
@@ -125,6 +129,8 @@ end
 ```
 
 ### Products
+Returns a list of SSL products presented as an array of GlobeSSL::Product. You can retrieve a single SSL product given a product id.
+
 ```ruby
 @products = GlobeSSL::Products.new
 
@@ -152,9 +158,9 @@ prod.id #=> 106
 prod.name #=> Globe FREE SSL
 prod.validation #=> dv
 prod.wildcard #=> false
-prod.mdc #=> false
-prod.mdc_min #=> 0
-prod.mdc_max #=> 0
+prod.multi_domain #=> false
+prod.min_domains #=> 0
+prod.max_domains #=> 0
 prod.brand #=> Globe SSL
 
 # You can also request a single product like so:
@@ -171,6 +177,8 @@ end
 ```
 
 ### Webservers
+Returns a list of webserver types to be used when ordering an SSL product.
+
 ```ruby
 @webservers = GlobeSSL::Webservers.new
 
@@ -199,6 +207,8 @@ webserver.name #=> AOL
 ```
 
 ### Domain Emails
+Returns a list of emails required when validating ownership of a domain using the `dv` method.
+
 ```ruby
 @domain_emails = GlobeSSL::DomainEmails.new(:domain => "acmecerts.com")
 
@@ -225,6 +235,8 @@ email.is_a?(String) #=> true
 ```
 
 ### Certificate Signing Request (CSR)
+Used to generate a CSR and Private Key pair. This class uses the GlobeSSL CA API `autocsr` endpoint.
+
 ```ruby
 @csr = GlobeSSL::CertificateSigningRequest.new(
   :country_name             => "US",
@@ -257,6 +269,8 @@ result = @csr.decode #=> true
 ```
 
 ### Order SSL Certificate
+Place an order for an SSL product.
+
 ```ruby
 @order = GlobeSSL::OrderSSLCertificate.new(
   :admin_firstname       => "Richard",
@@ -294,6 +308,8 @@ end
 ```
 
 ### SSL Certificate
+Returns an SSL certificate given a certificate id.
+
 ```ruby
 @cert = GlobeSSL::SSLCertificate.new(
   :id => @order.certificate_id # from above
@@ -328,6 +344,8 @@ end
 ```
 
 ### Domain Control Validation
+Provides methods to resend a domain control validation email, or change the `dcv_method`.
+
 ```ruby
 @dcv = GlobeSSL::DomainControlValidation.new(
   :certificate => cert, # from above
