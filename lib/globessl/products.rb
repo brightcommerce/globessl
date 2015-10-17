@@ -18,14 +18,14 @@ module GlobeSSL
       
         collection.each do |product|
           @list << Product.new(
-            :id         => product["id"],
-            :name       => product["name"],
-            :validation => product["validation"],
-            :wildcard   => product["wildcard"],
-            :mdc        => product["mdc"],
-            :mdc_min    => product["mdc_min"],
-            :mdc_max    => product["mdc_max"],
-            :brand      => product["brand"]
+            :id           => product["id"],
+            :name         => product["name"],
+            :validation   => product["validation"],
+            :wildcard     => product["wildcard"],
+            :multi_domain => product["mdc"],
+            :min_domains  => product["mdc_min"],
+            :max_domains  => product["mdc_max"],
+            :brand        => product["brand"]
           )
         end
         return true
