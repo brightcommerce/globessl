@@ -67,7 +67,7 @@ The **GlobeSSL Client** provides access to the following GlobeSSL CA API endpoin
 The **GlobeSSL Client** *does not* provide access the following GlobeSSL CA API endpoint:
 - [order/quick](https://api.globessl.com/docs/#api-order-quickssl) Order a new SSL Certificate using invite method. The client will receive the URL for completing the SSL generation.
 
-## How To Use
+### API Endpoints
 I've attempted to make the **GlobeSSL Client** interface as consistent as possible. The GlobeSSL CA API has the following rules:
 - `GET` requests require any parameters in the URL.
 - `POST` requests require any parameters as `x-www-form-urlencoded` and passed in the request body.
@@ -78,7 +78,7 @@ The **GlobeSSL Client** breaks the API into consistent logical domain models. Th
 
 Following are examples of how to instantiate each class with attributes where necessary, and the properties that can be queried on the class after each API call. All example information including names, addresses and other details are completely fictional and provided to give context.
 
-### Account Balance
+#### Account Balance
 Returns the current account balance and currency.
 
 ```ruby
@@ -86,7 +86,8 @@ Returns the current account balance and currency.
 
 result = @account.fetch #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @account.errors.each do |err|
     puts err
@@ -98,7 +99,7 @@ end
 @account.currency #=> 'USD'
 ```
 
-### Account Details
+#### Account Details
 Returns the account details such as reseller name, company, address and contact details. It also returns the current balance.
 
 ```ruby
@@ -106,7 +107,8 @@ Returns the account details such as reseller name, company, address and contact 
 
 result = @account.fetch #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @account.errors.each do |err|
     puts err
@@ -128,7 +130,7 @@ end
 @account.postal_code #=> 12345-6789
 ```
 
-### Products
+#### Products
 Returns a list of SSL products presented as an array of GlobeSSL::Product. You can retrieve a single SSL product given a product id.
 
 ```ruby
@@ -136,7 +138,8 @@ Returns a list of SSL products presented as an array of GlobeSSL::Product. You c
 
 result = @products.fetch #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @products.errors.each do |err|
     puts err
@@ -168,7 +171,8 @@ prod.brand #=> Globe SSL
 result = @product.fetch #=> true
 @product.is_a?(GlobeSSL::Product) #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @product.errors.each do |err|
     puts err
@@ -176,7 +180,7 @@ if result == false
 end
 ```
 
-### Webservers
+#### Webservers
 Returns a list of webserver types to be used when ordering an SSL product.
 
 ```ruby
@@ -184,7 +188,8 @@ Returns a list of webserver types to be used when ordering an SSL product.
 
 result = @webservers.fetch #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @webservers.errors.each do |err|
     puts err
@@ -206,7 +211,7 @@ webserver.id #=> 1
 webserver.name #=> AOL
 ```
 
-### Domain Emails
+#### Domain Emails
 Returns a list of emails required when validating ownership of a domain using the `dv` method.
 
 ```ruby
@@ -214,7 +219,8 @@ Returns a list of emails required when validating ownership of a domain using th
 
 result = @domain_emails.fetch #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @domain_emails.errors.each do |err|
     puts err
@@ -234,7 +240,7 @@ email = @domain_emails.list.first #=> admin@acmecerts.com
 email.is_a?(String) #=> true
 ```
 
-### Certificate Signing Request (CSR)
+#### Certificate Signing Request (CSR)
 Used to generate a CSR and Private Key pair. This class uses the GlobeSSL CA API `autocsr` endpoint.
 
 ```ruby
@@ -250,7 +256,8 @@ Used to generate a CSR and Private Key pair. This class uses the GlobeSSL CA API
 
 result = @csr.fetch #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @csr.errors.each do |err|
     puts err
@@ -268,7 +275,7 @@ result = @csr.decode #=> true
 @csr.decoded_csr #=> {"CN":"www.acmecerts.com","OU":"acmecerts.com"...
 ```
 
-### Order SSL Certificate
+#### Order SSL Certificate
 Place an order for an SSL product.
 
 ```ruby
@@ -293,7 +300,8 @@ Place an order for an SSL product.
 
 result = @order.purchase! #=> true
 
-# If the purchase! method fails it will return false and populate the errors collection attribute:
+# If the purchase! method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @order.errors.each do |err|
     puts err
@@ -307,7 +315,7 @@ end
 @order.currency #=> USD
 ```
 
-### SSL Certificate
+#### SSL Certificate
 Returns an SSL certificate given a certificate id.
 
 ```ruby
@@ -317,7 +325,8 @@ Returns an SSL certificate given a certificate id.
 
 result = @cert.fetch #=> true
 
-# If the fetch method fails it will return false and populate the errors collection attribute:
+# If the fetch method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @cert.errors.each do |err|
     puts err
@@ -343,7 +352,7 @@ end
 @cert.ca_code #=> -----BEGIN CERTIFICATE-----\nMIIGBzCC...
 ```
 
-### Domain Control Validation
+#### Domain Control Validation
 Provides methods to resend a domain control validation email, or change the `dcv_method`.
 
 ```ruby
@@ -360,7 +369,8 @@ result = @dcv.resend! #=> true
 @dcv.approver_email = "administrator@acmecerts.com"
 result = @dcv.change! #=> true
 
-# If the resend! or change! method fails it will return false and populate the errors collection attribute:
+# If the resend! or change! method fails it will return false
+# and populate the errors collection attribute:
 if result == false
   @dcv.errors.each do |err|
     puts err
@@ -368,7 +378,7 @@ if result == false
 end
 ```
 
-### Country Codes
+#### Country Codes
 The **GlobeSSL Client** provides a constant hash of country codes. This list is derived from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2. The hash keys are ISO_3166-1_alpha-2 codes and the values are the country display name. The top 20 countries by number of Internet users are grouped first, see  https://en.wikipedia.org/wiki/List_of_countries_by_number_of_Internet_users.
 
 Example: access a country name by code:
@@ -391,12 +401,12 @@ You will need to check if the product is returned by the `GlobeSSL::Products` cl
 - Test suite with mocks for CI/CD scenarios.
 
 ## Acknowledgements
-#### Version 1.0.2
-- Jurgen Jocubeit - President & CEO, [Brightcommerce, Inc.](http://brightcommerce.com)
+#### Versions <= 1.0.4
+- Jurgen Jocubeit - President & CEO, [Brightcommerce, Inc.](https://twitter.com/brightcommerce)
 - Zoltan Egresi - CTO, [GlobeSSL CA](https://globessl.com) (API guidance and live testing assistance)
 
 ## License
-This library is release in the public domain under the [MIT License](http://opensource.org/licenses/MIT).
+The **GlobeSSL Client** is released to the public domain under the [MIT License](http://opensource.org/licenses/MIT).
 
 ## Copyright
 Copyright 2015 Brightcommerce, Inc.
